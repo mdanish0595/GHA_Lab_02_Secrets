@@ -1,5 +1,5 @@
 resource "aws_security_group" "web_sg" {
-  name        = "web-sg-dan-gitH"
+  name        = "web-sg-dan-gitH-02"
   description = "Allow HTTP and SSH inbound traffic"
   vpc_id      = "vpc-07b3e9e8021bfb088"  # Replace with your actual VPC ID
 
@@ -28,6 +28,6 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "web-sg-dan"
+    Name = "web-sg-dan-02"
   }
 }
