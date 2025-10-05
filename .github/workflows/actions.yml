@@ -17,7 +17,7 @@ jobs:
         shell: bash
         working-directory: ./terraform-sg
     env:
-      AWS_REGION: us-west-2
+      # AWS_REGION: us-west-2; using via GH secrets
       TF_WORKING_DIR: ./terraform-sg
     steps:
       - name: Checkout code
@@ -26,8 +26,8 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::211125325120:role/git-role-web-identity-dan
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region:  ${{ secrets.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

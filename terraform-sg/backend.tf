@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "dan-terraform-01"
-    key            = "tf-statefile/terraform.tfstate"
-    region         = "us-west-2"
+    bucket         = ${{ secrets.AWS_BUCKET_NAME }}
+    key            = ${{ secrets.AWS_BUCKET_KEY_NAME }}
+    region         = ${{ secrets.AWS_REGION }}
     encrypt        = true
   }
 }
