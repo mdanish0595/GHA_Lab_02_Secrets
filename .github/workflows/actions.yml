@@ -38,7 +38,7 @@ jobs:
       #   continue-on-error: true
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
         # run: terraform -chdir=${{ env.TF_WORKING_DIR }} init
 
       - name: Terraform Validate
