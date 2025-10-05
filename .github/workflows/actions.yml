@@ -17,7 +17,6 @@ jobs:
         shell: bash
         working-directory: ./terraform-sg
     env:
-      # AWS_REGION: us-west-2; using via GH secrets
       TF_BACKEND_CONFIG: -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
       TF_WORKING_DIR: ./terraform-sg
     steps:
@@ -33,15 +32,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      # - name: Terraform fmt
-      #   id: fmt
-      #   run: terraform fmt -check
-      #   continue-on-error: true
-
       - name: Terraform Init
-        run: terraform init 
-        # ${{ env.TF_BACKEND_CONFIG }}
-        # run: terraform -chdir=${{ env.TF_WORKING_DIR }} init
+        run: terraform init # ${{ env.TF_BACKEND_CONFIG }}
 
       - name: Terraform Validate
         id: validate
@@ -49,8 +41,6 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-        # run: terraform -chdir=${{ env.TF_WORKING_DIR }} plan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-      #   run: terraform -chdir=${{ env.TF_WORKING_DIR }} apply -auto-approve
