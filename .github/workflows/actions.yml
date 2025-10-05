@@ -33,7 +33,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
-        run: terraform init # ${{ env.TF_BACKEND_CONFIG }}
+        run: terraform init ${{ env.TF_BACKEND_CONFIG }}
 
       - name: Terraform Validate
         id: validate
