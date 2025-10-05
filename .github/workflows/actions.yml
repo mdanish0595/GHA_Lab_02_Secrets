@@ -47,9 +47,9 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan ${{ env.TF_BACKEND_CONFIG }}
         # run: terraform -chdir=${{ env.TF_WORKING_DIR }} plan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve ${{ env.TF_BACKEND_CONFIG }}
       #   run: terraform -chdir=${{ env.TF_WORKING_DIR }} apply -auto-approve
