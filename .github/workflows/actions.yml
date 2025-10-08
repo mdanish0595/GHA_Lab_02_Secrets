@@ -44,6 +44,20 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    
+      - name: Run TFLint
+        run: tflint --recursive
+  
+      - name: Run Checkov (Security Scan)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          quiet: true
+          soft_fail: true
 
   # Job02:
   #   runs-on: ubuntu-latest
