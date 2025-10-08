@@ -44,3 +44,42 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+  Job02:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform-sg
+    env:
+      TF_BACKEND_CONFIG: -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+      TF_WORKING_DIR: ./terraform-sg
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region:  ${{ secrets.AWS_REGION }}
+
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    
+      - name: Run TFLint
+        run: tflint --recursive
+  
+      - name: Run Checkov (Security Scan)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          quiet: true
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        run: terraform plan
