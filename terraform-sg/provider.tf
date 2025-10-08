@@ -8,8 +8,3 @@ terraform {
 
   required_version = ">= 1.0.0"
 }
-
-provider "aws" {
-  region  = "us-west-2"
-  #profile = "default"  # Optional: if using named AWS CLI profiles
-}
